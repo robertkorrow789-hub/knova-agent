@@ -1,31 +1,20 @@
 from __future__ import annotations
 
+import json
 import sys
+
 from core.agent import BuilderAgent
 
 
 def main() -> int:
     if len(sys.argv) < 2:
-        print("Usage: python main.py \"your request here\"")
+        print('Usage: python main.py "build me a modern landing page"')
         return 1
 
-    request = " ".join(sys.argv[1:]).strip()
+    request = " ".join(sys.argv[1:])
     agent = BuilderAgent()
     result = agent.run(request)
-
-    print("\n=== RESULT ===")
-    print(f"Task type: {result['task_type']}")
-    print(f"Output dir: {result['output_dir']}")
-    print(f"Passed tests: {result['passed_tests']}")
-    print(f"Attempts used: {result['attempts_used']}")
-    print("Files:")
-    for file_name in result["files_created"]:
-        print(f"- {file_name}")
-
-    if result.get("notes"):
-        print("\nNotes:")
-        print(result["notes"])
-
+    print(json.dumps(result, indent=2))
     return 0
 
 

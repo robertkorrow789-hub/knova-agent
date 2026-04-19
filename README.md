@@ -1,159 +1,70 @@
-# Phase 1 Builder Agent
+# 🧠 KnoVa AI
 
-A practical **Phase 1 AI builder agent** for Termux or Linux that can:
+> Build. Think. Execute.
 
-- generate **websites**, **simple apps**, **simple games**, and **writing**
-- run a **test-and-revise loop**
-- save successful patterns to **memory**
-- work with either:
-  - a **mock offline provider** (runs free with no API)
-  - an **OpenAI-compatible endpoint** (optional later)
+KnoVa AI is a modular AI builder agent designed to create, analyze, improve, and iterate on digital projects such as websites, apps, games, writing jobs, and research tasks.
 
-This is designed as a strong base for the bigger system you described.
+## What changed in Phase 2.5
 
-## What this version does
+Phase 2.5 connects the pieces into a real loop:
 
-1. Accepts a request from the command line.
-2. Routes it to the right module.
-3. Generates project files.
-4. Runs basic tests.
-5. If tests fail, asks the provider for a repair.
-6. Saves output into `projects/`.
-7. Stores successful patterns into `memory/`.
+1. Route the request
+2. Generate the first version
+3. Write files to disk
+4. Run tests
+5. Optimize the output
+6. Re-test
+7. Repair if needed
+8. Save memory for future runs
 
-## Best use right now
+## Current capabilities
 
-- landing pages
-- simple websites
-- starter Python apps
-- simple terminal games
-- SEO/article drafts
-- project scaffolds you can improve later
+- Website scaffolding
+- App scaffolding
+- Game scaffolding
+- Writing output generation
+- Research output generation
+- Integrated optimize → write → test loop
+- Project memory tracking
+- Cleaner git-ready structure
 
-## Folder structure
+## Project structure
 
 ```text
 phase1_builder_agent/
-├── main.py
-├── config.py
-├── requirements.txt
-├── .env.example
-├── core/
-│   ├── agent.py
-│   ├── llm.py
-│   ├── memory.py
-│   ├── router.py
-│   ├── tester.py
-│   └── utils.py
-├── modules/
-│   ├── web_builder.py
-│   ├── app_builder.py
-│   ├── game_builder.py
-│   ├── writer.py
-│   └── researcher.py
-├── projects/
-├── memory/
-└── tests/
+  core/
+  modules/
+  memory/
+  projects/
+  tests/
+  .gitignore
+  config.py
+  main.py
+  requirements.txt
 ```
 
-## Termux setup
+## Run it
 
 ```bash
-pkg update && pkg upgrade -y
-pkg install python git -y
-pip install --upgrade pip
-pip install -r requirements.txt
+python main.py "build me a one-page barber website with pricing and contact info"
 ```
 
-## Run with the free offline provider
+## Test it
 
 ```bash
-python main.py "build me a one-page barber website for Shamokin PA"
-python main.py "write a local SEO page for a roofing company in Philadelphia"
-python main.py "make a simple python to-do app"
-python main.py "make a simple snake-style terminal game"
+python -m unittest discover -s tests
 ```
-
-This works immediately because the default provider is `mock`.
-
-## Optional: use a real model later
-
-Copy the env file:
-
-```bash
-cp .env.example .env
-```
-
-Then set:
-
-```env
-LLM_PROVIDER=openai_compatible
-LLM_API_KEY=your_key_here
-LLM_BASE_URL=https://your-endpoint.example/v1
-LLM_MODEL=your-model-name
-```
-
-This supports any endpoint that follows the OpenAI-compatible chat format.
-
-## Research mode
-
-The researcher module uses DuckDuckGo's HTML results page with `requests` and `BeautifulSoup`.
-It is intentionally basic and may break if the site changes. It is a placeholder for a stronger search tool later.
-
-Example:
-
-```bash
-python main.py "research best website sections for a local barber landing page"
-```
-
-## How the testing loop works
-
-After generation, the agent runs basic checks:
-
-- Python files are syntax-checked with `py_compile`
-- website projects are checked for required files
-- text outputs are checked for minimum content
-
-If checks fail, the agent creates a repair prompt and retries up to the configured maximum.
-
-## Memory
-
-Successful builds are summarized into JSON records in `memory/patterns.json`.
-This is not model training. It is a practical reuse system:
-
-- what worked
-- what project type it was
-- what files were created
-- what passed tests
-
-## Recommended path from here
-
-### Phase 1
-Use this to generate and revise starter projects.
-
-### Phase 2
-Add:
-- browser automation
-- file editing on existing projects
-- better search
-- deployment helpers
-- project memory per client
-
-### Phase 3
-Add:
-- multi-step planning
-- code diffing
-- automated optimization suggestions
-- stronger UI testing
 
 ## Notes
 
-- This is a **base system**, not a full replacement for ChatGPT, Claude, or Agent mode.
-- It is built to be understandable and extendable.
-- The mock provider keeps it usable even when you have no API budget.
+- This version is still Termux-friendly and lightweight.
+- The browser module is a foundation for later automation, not full click-and-control yet.
+- The optimizer is deterministic by design so it works offline.
 
-## Run tests
+## Next likely upgrade
 
-```bash
-python -m unittest discover -s tests -v
-```
+Phase 3 should add:
+- real browser automation
+- existing-project editing workflows
+- stronger optimization passes
+- richer testing coverage

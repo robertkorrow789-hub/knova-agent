@@ -20,3 +20,7 @@ class MemoryStore:
     def get_patterns(self) -> list[dict[str, Any]]:
         data = read_json(self.patterns_path, default=[])
         return data if isinstance(data, list) else []
+
+    def get_recent_patterns(self, limit: int = 5) -> list[dict[str, Any]]:
+        patterns = self.get_patterns()
+        return patterns[-limit:]
